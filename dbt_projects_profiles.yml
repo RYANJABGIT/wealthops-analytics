@@ -1,0 +1,16 @@
+# Native Snowflake dbt Projects (Snowsight Workspaces) profile.
+# dbt execution inside Snowflake uses the current Snowflake session identity.
+# No password or API token is needed here. Local dbt Core can use
+# profiles.example.yml copied to ~/.dbt/profiles.yml instead.
+wealthops_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "not needed"
+      user: "not needed"
+      role: SYSADMIN
+      database: WEALTHOPS_DB
+      schema: STAGING
+      warehouse: WEALTHOPS_WH
+      threads: 2
