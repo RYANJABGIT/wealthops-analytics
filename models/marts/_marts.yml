@@ -1,0 +1,75 @@
+version: 2
+models:
+  - name: dim_customers
+    description: One row per customer. Synthetic portfolio data only.
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null
+  - name: dim_accounts
+    description: One row per account. Synthetic portfolio data only.
+    columns:
+      - name: account_id
+        data_tests:
+          - not_null
+  - name: fct_transactions
+    description: One row per transaction. Synthetic portfolio data only.
+    columns:
+      - name: transaction_id
+        data_tests:
+          - not_null
+  - name: fct_fee_events
+    description: One row per posted or pending fee event. Synthetic portfolio data only.
+    columns:
+      - name: fee_id
+        data_tests:
+          - not_null
+  - name: fct_account_valuations_daily
+    description: One row per account/day. Synthetic portfolio data only.
+    columns:
+      - name: account_id
+        data_tests:
+          - not_null
+      - name: valuation_date
+        data_tests:
+          - not_null
+  - name: mart_daily_aum
+    description: One row per day/product. Synthetic portfolio data only.
+    columns:
+      - name: valuation_date
+        data_tests:
+          - not_null
+      - name: product_type
+        data_tests:
+          - not_null
+  - name: mart_monthly_cashflows
+    description: One row per month/product. Synthetic portfolio data only.
+    columns:
+      - name: cashflow_month
+        data_tests:
+          - not_null
+      - name: product_type
+        data_tests:
+          - not_null
+  - name: mart_partner_reconciliation
+    description: One row per partner/day/product. Synthetic portfolio data only.
+    columns:
+      - name: partner_id
+        data_tests:
+          - not_null
+      - name: valuation_date
+        data_tests:
+          - not_null
+      - name: product_type
+        data_tests:
+          - not_null
+  - name: mart_data_quality
+    description: One row per quality check/day. Synthetic portfolio data only.
+    columns:
+      - name: check_name
+        data_tests:
+          - not_null
+      - name: observed_date
+        data_tests:
+          - not_null
+

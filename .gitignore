@@ -1,0 +1,20 @@
+# Never commit credentials or generated/private data
+.env
+.env.*
+!.env.example
+profiles.yml
+**/profiles.yml
+!.github/**
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.py[cod]
+data/generated/
+target/
+dbt_packages/
+logs/
+*.log
+.DS_Store
+.streamlit/secrets.toml
+

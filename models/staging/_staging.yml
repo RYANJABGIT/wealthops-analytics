@@ -1,0 +1,208 @@
+version: 2
+sources:
+  - name: wealthops_raw
+    database: WEALTHOPS_DB
+    schema: RAW
+    description: Synthetic source data created by the Python generator.
+    tables:
+      - name: raw_customers
+        description: Synthetic customers data.
+      - name: raw_accounts
+        description: Synthetic accounts data.
+        loaded_at_field: LOADED_AT
+        freshness:
+          warn_after: {count: 48, period: hour}
+          error_after: {count: 96, period: hour}
+      - name: raw_transactions
+        description: Synthetic transactions data.
+        loaded_at_field: LOADED_AT
+        freshness:
+          warn_after: {count: 48, period: hour}
+          error_after: {count: 96, period: hour}
+      - name: raw_valuations
+        description: Synthetic valuations data.
+        loaded_at_field: LOADED_AT
+        freshness:
+          warn_after: {count: 48, period: hour}
+          error_after: {count: 96, period: hour}
+      - name: raw_fee_events
+        description: Synthetic fee events data.
+      - name: raw_partner_valuations
+        description: Synthetic partner valuations data.
+models:
+  - name: stg_customers
+    description: Typed and standardized customers.
+    columns:
+      - name: customer_id
+        description: customer id.
+        data_tests:
+          - not_null
+          - unique
+      - name: registration_date
+        description: registration date.
+      - name: country
+        description: country.
+      - name: customer_segment
+        description: customer segment.
+      - name: customer_status
+        description: customer status.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["ACTIVE","INACTIVE"]
+      - name: updated_at
+        description: updated at.
+      - name: loaded_at
+        description: loaded at.
+  - name: stg_accounts
+    description: Typed and standardized accounts.
+    columns:
+      - name: account_id
+        description: account id.
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: customer id.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: "ref('stg_customers')"
+              arguments:
+                field: "customer_id"
+      - name: product_type
+        description: product type.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["ASSURANCE_VIE","PEA","PER"]
+      - name: opening_date
+        description: opening date.
+      - name: closing_date
+        description: closing date.
+      - name: account_status
+        description: account status.
+      - name: partner_id
+        description: partner id.
+      - name: updated_at
+        description: updated at.
+      - name: loaded_at
+        description: loaded at.
+  - name: stg_transactions
+    description: Typed and standardized transactions.
+    columns:
+      - name: transaction_id
+        description: transaction id.
+        data_tests:
+          - not_null
+          - unique
+      - name: account_id
+        description: account id.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: "ref('stg_accounts')"
+              arguments:
+                field: "account_id"
+      - name: transaction_type
+        description: transaction type.
+      - name: transaction_amount
+        description: transaction amount.
+      - name: currency
+        description: currency.
+      - name: transaction_date
+        description: transaction date.
+      - name: transaction_status
+        description: transaction status.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["completed","pending","rejected","cancelled"]
+      - name: updated_at
+        description: updated at.
+      - name: loaded_at
+        description: loaded at.
+  - name: stg_valuations
+    description: Typed and standardized valuations.
+    columns:
+      - name: account_id
+        description: account id.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: "ref('stg_accounts')"
+              arguments:
+                field: "account_id"
+      - name: valuation_date
+        description: valuation date.
+        data_tests:
+          - not_null
+      - name: total_value
+        description: total value.
+      - name: cash_value
+        description: cash value.
+      - name: currency
+        description: currency.
+      - name: updated_at
+        description: updated at.
+      - name: loaded_at
+        description: loaded at.
+  - name: stg_fee_events
+    description: Typed and standardized fee events.
+    columns:
+      - name: fee_id
+        description: fee id.
+        data_tests:
+          - not_null
+          - unique
+      - name: account_id
+        description: account id.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: "ref('stg_accounts')"
+              arguments:
+                field: "account_id"
+      - name: fee_date
+        description: fee date.
+      - name: fee_type
+        description: fee type.
+      - name: fee_amount
+        description: fee amount.
+      - name: fee_status
+        description: fee status.
+      - name: updated_at
+        description: updated at.
+      - name: loaded_at
+        description: loaded at.
+  - name: stg_partner_valuations
+    description: Typed and standardized partner valuations.
+    columns:
+      - name: partner_id
+        description: partner id.
+        data_tests:
+          - not_null
+      - name: account_id
+        description: account id.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: "ref('stg_accounts')"
+              arguments:
+                field: "account_id"
+      - name: valuation_date
+        description: valuation date.
+      - name: partner_value
+        description: partner value.
+      - name: currency
+        description: currency.
+      - name: updated_at
+        description: updated at.
+      - name: loaded_at
+        description: loaded at.
+

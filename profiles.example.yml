@@ -1,0 +1,17 @@
+# Copy this OUTSIDE the repository to ~/.dbt/profiles.yml
+# Avoid putting real credentials in a tracked file.
+wealthops_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      authenticator: "{{ env_var('SNOWFLAKE_AUTHENTICATOR', 'externalbrowser') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'SYSADMIN') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'WEALTHOPS_DB') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'WEALTHOPS_WH') }}"
+      schema: "STAGING"
+      threads: 2
+      client_session_keep_alive: false
+
