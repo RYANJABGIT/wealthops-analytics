@@ -1,0 +1,14 @@
+[project]
+name = "wealthops-analytics"
+version = "0.1.0"
+description = "Synthetic fintech analytics engineering portfolio with dbt and Snowflake."
+requires-python = ">=3.11,<3.14"
+
+[tool.pytest.ini_options]
+testpaths = ["python_tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+

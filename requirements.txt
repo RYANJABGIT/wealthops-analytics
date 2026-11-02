@@ -1,0 +1,11 @@
+# Choose Python 3.11 or 3.12 (dbt adapter compatibility)
+dbt-core>=1.11,<1.13
+dbt-snowflake>=1.11,<1.13
+snowflake-connector-python[pandas]>=4.0,<5
+python-dotenv>=1.0,<2
+pytest>=8,<10
+PyYAML>=6,<7
+streamlit>=1.40,<2
+plotly>=5.20,<7
+pandas>=2.2,<3
+

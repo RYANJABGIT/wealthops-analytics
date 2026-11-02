@@ -1,0 +1,9 @@
+.git
+.env
+.venv
+data/generated
+target
+dbt_packages
+__pycache__
+*.pyc
+
